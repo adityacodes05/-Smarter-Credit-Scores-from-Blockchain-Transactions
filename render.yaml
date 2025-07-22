@@ -1,8 +1,10 @@
 services:
   - type: web
-    name: aave-credit-api
+    name: aave-credit-score-api
     env: python
-    region: singapore
-    plan: free
     buildCommand: pip install -r backend/requirements.txt
     startCommand: python backend/app.py
+    plan: free
+    branch: main
+    runtime: python
+    repo: https://github.com/adityacodes05/-Smarter-Credit-Scores-from-Blockchain-Transactions
