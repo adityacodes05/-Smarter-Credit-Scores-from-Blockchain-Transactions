@@ -1,12 +1,12 @@
-#  Smarter Credit Scores from Blockchain Transactions
+# 🖊️ Smarter Credit Scores from Blockchain Transactions
 
-##  Overview
+## 🔍 Overview
 
 **Aave Wallet Credit Score Predictor** is a machine learning-powered system that analyzes Aave V2 wallet transaction history and assigns a credit score (0–1000) based on wallet behavior. This allows DeFi lenders to evaluate trustworthiness using on-chain behavior, without relying on traditional finance data.
 
 ---
 
-##  How it Works
+## ⚙️ How it Works
 
 1. User uploads a `.json` file containing Aave V2 wallet transactions.
 2. Flask backend extracts behavioral features (e.g., deposit frequency, repay/borrow ratio).
@@ -16,7 +16,7 @@
 
 ---
 
-##  ML Model Used
+## 🧠 ML Model Used
 
 - **Model:** KMeans Clustering (Unsupervised)
 - **Scaler:** StandardScaler (to normalize inputs)
@@ -31,7 +31,7 @@
 
 ---
 
-##  Features
+## 💡 Features
 
 - Upload and process `.json` Aave wallet data  
 - Frontend preview of credit scores in tabular format  
@@ -40,9 +40,9 @@
 
 ---
 
-##  How to Run
+## 🚀 How to Run
 
-###  Backend Setup
+### 🧩 Backend Setup
 ```bash
 cd backend
 python -m venv venv
@@ -51,7 +51,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-###  Frontend Setup
+### 🎨 Frontend Setup
 ```bash
 cd frontend
 python -m http.server 5500
@@ -60,7 +60,7 @@ python -m http.server 5500
 
 ---
 
-##  Folder Structure
+## 📂 Folder Structure
 
 ```
 aave-credit-score/
@@ -94,7 +94,7 @@ aave-credit-score/
 
 ---
 
-##  Sample Output Screenshot
+## 🖼️ Sample Output Screenshot
 
 This shows the predicted scores from a sample wallet upload:
 
@@ -102,7 +102,7 @@ This shows the predicted scores from a sample wallet upload:
 
 ---
 
-##  EDA Visualizations
+## 📈 EDA Visualizations
 
 ### 1. Credit Score Distribution  
 Shows how credit scores are distributed among wallets.  
@@ -118,7 +118,7 @@ Histogram of average number of days between wallet transactions.
 
 ---
 
-##  How to Test
+## 🥺 How to Test
 
 1. Run the backend (`python app.py`) and confirm it says `Running on http://127.0.0.1:5000`
 2. Serve frontend (`python -m http.server 5500`) and open in browser
@@ -128,6 +128,3 @@ Histogram of average number of days between wallet transactions.
 ---
 
 Built with ❤️ using Python, Flask, HTML/CSS, and Machine Learning.
-## Developed by
-
-# Aditya Maturi
