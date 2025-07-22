@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🧠 Aave Wallet Credit Score Predictor</title>
+  <link rel="icon" href="data:,">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.6/lottie.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      color: #1a73e8;
+      margin-bottom: 10px;
+    }
+
+    #lottie {
+      height: 200px;
+      margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px dashed #1a73e8;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0b53c1;
+    }
+
+    #result {
+      margin-top: 30px;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #1a73e8;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f6fc;
+    }
+
+    .error, .loading {
+      margin-top: 20px;
+      color: #e53935;
+      font-weight: bold;
+    }
+
+    .loading {
+      color: #555;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div id="lottie"></div>
+    <h2>📊 Wallet Credit Score Predictor</h2>
+    <form id="uploadForm">
+      <input type="file" id="fileInput" accept=".json" required />
+      <button type="submit">Upload and Predict</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Lottie animation
+    lottie.loadAnimation({
+      container: document.getElementById('lottie'),
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'https://assets4.lottiefiles.com/packages/lf20_tljjah.json'  // You can replace with any animation
+    });
+
+    document.getElementById("uploadForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = '<p class="loading">⏳ Uploading and analyzing...</p>';
+
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+
+      if (!file) {
+        resultDiv.innerHTML = '<p class="error">❌ Please select a file first.</p>';
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await fetch("http://localhost:5000/predict", {
+          method: "POST",
+          body: formData
+        });
+
+        const rawText = await response.text();
+        let data;
+
+        try {
+          data = JSON.parse(rawText);
+        } catch {
+          throw new Error("Invalid JSON returned from server:\n" + rawText);
+        }
+
+        if (!Array.isArray(data)) {
+          throw new Error(data.error || "Unexpected response from server.");
+        }
+
+        let table = `<table><tr><th>Wallet</th><th>Score</th></tr>`;
+        data.forEach(wallet => {
+          table += `<tr><td>${wallet.wallet}</td><td>${wallet.score}</td></tr>`;
+        });
+        table += `</table>`;
+        resultDiv.innerHTML = table;
+        fileInput.value = "";
+
+      } catch (err) {
+        console.error("❌ Error during fetch:", err);
+        resultDiv.innerHTML = `<p class="error">❌ ${err.message}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>

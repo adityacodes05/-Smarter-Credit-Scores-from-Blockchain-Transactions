@@ -1,0 +1,15 @@
+aave-credit-score-app/
+│
+├── backend/
+│   ├── app.py                ← Flask backend
+│   ├── model.pkl             ← Trained KMeans model
+│   ├── scaler.pkl            ← Fitted scaler
+│   ├── utils.py              ← Feature extraction logic
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── index.html            ← Upload + result view
+│   └── script.js             ← Sends JSON, shows scores
+│
+├── README.md
+└── analysis.md
